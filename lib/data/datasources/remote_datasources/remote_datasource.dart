@@ -3,13 +3,12 @@ import 'package:coralis_test/common/errors/api_exception.dart';
 import 'package:coralis_test/common/utils/logger.dart';
 import 'package:coralis_test/data/datasources/session/session_source.dart';
 
-
 /// Base class for all remote datasource
 class RemoteDatasource {
   final Dio _dio;
-  final SessionSource _session;
+  final SessionSource session;
 
-  RemoteDatasource(this._dio, this._session);
+  RemoteDatasource(this._dio, this.session);
 
   /// [T] is return type from [onResponse] network request
   /// [request] is the network request function which it's return type is param for [onResponse]
@@ -28,30 +27,32 @@ class RemoteDatasource {
       final response = await request(_dio);
 
       if (response.statusCode! >= 200 || response.statusCode! < 300) {
-        // Todo: handle response since it's depend on the API response
-        // ex: some API response with status code 200 but contain error
 
-        // check if response contain error
-        if (response.data['error'] != null) {
-          throw ApiException(response.data['error']);
+        if (response.data['success'] != true) {
+          throw ApiException(
+            response.data['message'],
+            errorBag: response.data['errorBag'],
+          );
         }
+
+        logger.d(response.data);
 
         return onResponse(response.data);
       } else {
-        throw ApiException(response.statusMessage ?? 'Something went wrong');
+        logger.e(response);
+        throw ApiException('Something went wrong');
       }
     } on DioException catch (e) {
       logger.e(e);
 
-      // Todo: handle other DioException
-      // remove auth when status code is 401
       if (e.response?.statusCode == 401) {
-        await _session.deleteToken();
+        await session.deleteToken();
         _dio.options.headers.remove("Authorization");
         throw ApiException('Unauthorized, please login again');
       }
 
-      throw ApiException(e.message ?? 'Something went wrong');
+      final resData = e.response?.data;
+      throw ApiException(resData['message'] ?? 'Something went wrong', errorBag: resData['errors']);
     } catch (e) {
       logger.e(e);
       throw ApiException(e.toString());
@@ -59,7 +60,7 @@ class RemoteDatasource {
   }
 
   Future<void> _applyAuthHeader() async {
-    final token = await _session.token;
+    final token = await session.token;
     if (token != null) {
       _dio.options.headers.addAll({"Authorization": "Bearer $token"});
     } else {

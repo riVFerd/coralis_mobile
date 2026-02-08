@@ -2,8 +2,9 @@ import 'package:fpdart/fpdart.dart';
 
 class AppError {
   final String message;
+  final Map<String, dynamic>? errorBag;
 
-  const AppError(this.message);
+  const AppError(this.message, {this.errorBag});
 
   @override
   String toString() => message;
