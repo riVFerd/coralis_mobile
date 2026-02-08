@@ -1,4 +1,6 @@
 import 'package:coralis_test/common/extensions/context_extension.dart';
+import 'package:coralis_test/data/repositories/auth_repository.dart';
+import 'package:coralis_test/injection.dart';
 import 'package:coralis_test/presentation/components/custom_button.dart';
 import 'package:coralis_test/presentation/components/custom_text_field.dart';
 import 'package:coralis_test/presentation/screens/auth/register_screen.dart';
@@ -11,6 +13,8 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:go_router/go_router.dart';
+
+import '../../../data/models/user_model.dart';
 
 class LoginScreen extends HookWidget {
   const LoginScreen({super.key});
@@ -60,17 +64,13 @@ class LoginScreen extends HookWidget {
                         style: TS.displayMedium,
                         textAlign: TextAlign.center,
                       ),
-
                       Sz.vSpacingSmall,
-
                       Text(
                         "Please sign in to continue",
                         style: TS.textSmall,
                         textAlign: TextAlign.center,
                       ),
-
                       Sz.vSpacingLarge,
-
                       CustomTextField(
                         name: 'email',
                         label: 'Email Address',
@@ -83,9 +83,7 @@ class LoginScreen extends HookWidget {
                           FormBuilderValidators.email(),
                         ]),
                       ),
-
                       Sz.vSpacingMedium,
-
                       CustomTextField(
                         name: 'password',
                         label: 'Password',
@@ -101,26 +99,20 @@ class LoginScreen extends HookWidget {
                           onPressed: () {},
                           style: TextButton.styleFrom(
                             foregroundColor: CT.primaryBlue,
-                            textStyle: TS.textSmall.copyWith(fontWeight: FontWeight.w600),
+                            textStyle: TS.textSmall
+                                .copyWith(fontWeight: FontWeight.w600),
                           ),
                           child: const Text("Forgot Password?"),
                         ),
                       ),
-                      
                       Sz.vSpacingMediumLarge,
-                      
                       CustomButton(
                         text: "Login",
-                        onPressed: () {
-                          if (formKey.currentState?.saveAndValidate() ?? false) {
-                            // Handle login
-                            // logger.d(formKey.currentState?.value); // Assuming logger is available or just comment out
-                          }
+                        onPressed: () async {
+
                         },
                       ),
-                      
                       Sz.vSpacingMedium,
-                      
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -132,7 +124,8 @@ class LoginScreen extends HookWidget {
                             onPressed: () => context.push(RegisterScreen.path),
                             style: TextButton.styleFrom(
                               foregroundColor: CT.primaryBlue,
-                              textStyle: TS.textSmall.copyWith(fontWeight: FontWeight.bold),
+                              textStyle: TS.textSmall
+                                  .copyWith(fontWeight: FontWeight.bold),
                             ),
                             child: const Text("Register"),
                           ),
