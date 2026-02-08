@@ -1,16 +1,64 @@
-# coralis_test
+# Coralis Flutter
 
-A new Flutter project.
+This project implements user authentication features including Register, Login, and Forgot Password, integrated with a backend API.
 
-## Getting Started
+## Features
 
-This project is a starting point for a Flutter application.
+- **Register**: Create a new account with name, email, and password.
+- **Login**: Authenticate with email and password to access the home screen.
+- **Forgot Password**: Request a password reset token via email.
+- **Reset Password**: Set a new password using the received token.
 
-A few resources to get you started if this is your first Flutter project:
+## Prerequisites
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+- [Flutter SDK](https://docs.flutter.dev/get-started/install) (version 3.22+)
+- An Android Emulator or Physical Device
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Installation
+
+1.  **Clone the repository**
+
+2.  **Install Dependencies**:
+    ```bash
+    flutter pub get
+    ```
+
+3.  **Configure Environment**:
+    
+    Copy the example environment file to create your local configuration:
+    ```bash
+    cp .env.example .env
+    ```
+
+    Open `.env` and adjust `BASE_API_URL` if needed.
+
+## Configuration
+
+**For Android Emulator:**
+If your backend is running locally on your machine at port `3000`:
+```env
+BASE_API_URL=http://10.0.2.2:3000/api
+```
+
+**For Physical Device:**
+Use your machine's local IP address (e.g., `192.168.1.x`):
+```env
+BASE_API_URL=http://YOUR_LOCAL_IP:3000/api
+```
+
+## Running the Application
+
+1.  **Start your Backend Server**: Ensure your backend API is running.
+2.  **Start the Android Emulator**.
+3.  **Run the Flutter App**:
+
+    ```bash
+    flutter run
+    ```
+
+## Project Structure
+
+-   `lib/data`: Data Sources, Models, and Repositories.
+-   `lib/presentation`: Screens, Components, Router, and Themes.
+-   `lib/common`: Utility classes and configuration.
+-   `lib/injection.dart`: Dependency Injection setup.
