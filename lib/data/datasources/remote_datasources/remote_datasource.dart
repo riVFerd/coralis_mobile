@@ -39,7 +39,8 @@ class RemoteDatasource {
 
         return onResponse(response.data);
       } else {
-        throw ApiException(response.statusMessage ?? 'Something went wrong');
+        logger.e(response);
+        throw ApiException('Something went wrong');
       }
     } on DioException catch (e) {
       logger.e(e);
@@ -50,7 +51,8 @@ class RemoteDatasource {
         throw ApiException('Unauthorized, please login again');
       }
 
-      throw ApiException(e.message ?? 'Something went wrong');
+      final resData = e.response?.data;
+      throw ApiException(resData['message'] ?? 'Something went wrong', errorBag: resData['errors']);
     } catch (e) {
       logger.e(e);
       throw ApiException(e.toString());

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:coralis_test/common/utils/logger.dart';
 import 'package:coralis_test/data/datasources/remote_datasources/remote_datasource.dart';
 import 'package:coralis_test/data/models/user_model.dart';
 
@@ -13,7 +14,7 @@ class AuthRemoteDatasource extends RemoteDatasource {
           data: user.toJson(),
         );
       },
-      onResponse: (data) => data.message,
+      onResponse: (data) => data['message'],
     );
   }
 
@@ -23,8 +24,8 @@ class AuthRemoteDatasource extends RemoteDatasource {
         return dio.post('/auth/login', data: user.toJson());
       },
       onResponse: (data) {
-        session.setToken(data.token);
-        return UserModel.fromJson(data.user);
+        session.setToken(data['data']['token']);
+        return UserModel.fromJson(data['data']['user']);
       },
     );
   }
@@ -34,8 +35,9 @@ class AuthRemoteDatasource extends RemoteDatasource {
       request: (dio) {
         return dio.post('/auth/forgot-password', data: {"email": email});
       },
-      onResponse: (data) => data
-          .resetToken, // For testing purpose, suppose to get the resetToken via email
+      onResponse: (data) {
+        return data['reset_token']; // For testing purpose, suppose to get the resetToken via email
+      },
     );
   }
 
@@ -43,9 +45,9 @@ class AuthRemoteDatasource extends RemoteDatasource {
     return networkRequest(
       request: (dio) {
         return dio.post('/auth/reset-password',
-            data: {"resetToken": resetToken, "newPassword": newPassword});
+            data: {"reset_token": resetToken, "new_password": newPassword});
       },
-      onResponse: (data) => data.message,
+      onResponse: (data) => data['message'],
     );
   }
 }

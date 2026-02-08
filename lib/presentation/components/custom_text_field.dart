@@ -60,6 +60,7 @@ class CustomTextField extends HookWidget {
           style: TS.textMedium.copyWith(color: CT.textPrimary),
           decoration: InputDecoration(
             hintText: hintText,
+            errorMaxLines: 2,
             hintStyle: TS.textMedium.copyWith(color: CT.darkGrey),
             filled: true,
             fillColor: isFocused.value ? CT.white : CT.background,

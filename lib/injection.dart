@@ -1,5 +1,8 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:coralis_test/data/datasources/remote_datasources/user_remote_datasource.dart';
 import 'package:coralis_test/data/repositories/auth_repository.dart';
+import 'package:coralis_test/data/repositories/user_repository.dart';
+import 'package:coralis_test/data/repositories/user_repository.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:coralis_test/common/network/network_info.dart';
@@ -19,4 +22,6 @@ void initializeDependencies() {
   get.registerLazySingleton(() => NetworkInfo(get.get()));
   get.registerLazySingleton<AuthRemoteDatasource>(() => AuthRemoteDatasource(get.get(), get.get()));
   get.registerLazySingleton<AuthRepository>(() => AuthRepository(get.get(), get.get()));
+  get.registerLazySingleton<UserRemoteDatasource>(() => UserRemoteDatasource(get.get(), get.get()));
+  get.registerLazySingleton<UserRepository>(() => UserRepository(get.get(), get.get()));
 }

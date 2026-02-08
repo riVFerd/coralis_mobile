@@ -1,3 +1,4 @@
+import 'package:coralis_test/common/utils/logger.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:coralis_test/common/errors/api_exception.dart';
 import 'package:coralis_test/common/errors/app_error.dart';
@@ -25,7 +26,7 @@ class Repository {
         if (saveToLocal != null) saveToLocal(data);
         return right(onSuccess(data));
       } on ApiException catch(e) {
-        return left(AppError(e.message));
+        return left(AppError(e.message, errorBag: e.errorBag));
       }
     } else {
       if (getOnLocal != null) {

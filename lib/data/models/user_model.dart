@@ -13,7 +13,7 @@ class UserModel {
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
     return UserModel(
-      id: json['id'] as String,
+      id: (json['id'] ?? '').toString(),
       name: json['name'] as String,
       email: json['email'] as String,
       password: json['password'] as String?,
@@ -34,6 +34,16 @@ class UserModel {
     return UserModel(
       id: '',
       name: '',
+      email: json['email'] as String,
+      password: json['password'] as String,
+    );
+  }
+
+  // Temporary use model as DTO for simplicity
+  factory UserModel.registerDTO(Map<String, dynamic> json) {
+    return UserModel(
+      id: '',
+      name: json['name'] as String,
       email: json['email'] as String,
       password: json['password'] as String,
     );
