@@ -6,9 +6,9 @@ class ApiService {
     final dio = Dio(
       BaseOptions(
         baseUrl: dotenv.get('BASE_API_URL', fallback: 'http://localhost:3000'),
-        sendTimeout: const Duration(minutes: 3),
-        connectTimeout: const Duration(minutes: 3),
-        receiveTimeout: const Duration(minutes: 3),
+        sendTimeout: const Duration(minutes: 1),
+        connectTimeout: const Duration(minutes: 1),
+        receiveTimeout: const Duration(minutes: 1),
         headers: {
           "Accept": "application/json",
           "Content-Type": "application/json",
